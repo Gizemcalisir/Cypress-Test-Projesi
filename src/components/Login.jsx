@@ -14,7 +14,23 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const history = useHistory();
 
- 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!emailRegex.test(form.email)) {
+      newErrors.email = 'Geçerli bir email giriniz.';
+    }
+    if (!passwordRegex.test(form.password)) {
+      newErrors.password = 'Şifre en az 8 karakter, bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir.';
+    }
+    if (!form.terms) {
+      newErrors.terms = 'Şartları kabul etmelisiniz.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (event) => {
     let { name, value, type, checked } = event.target;
